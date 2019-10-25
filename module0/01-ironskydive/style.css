@@ -13,9 +13,9 @@ h1, h2, h3, h4, h5, h6 {
 h1 {font-size: 9em;text-align: center;text-transform: uppercase}
 h2 {font-size: 5em;text-align: center;text-transform: uppercase;color:white;text-shadow: #020819 8px -20px 9px;line-height: 4em}
 h3 {font-size: 4.2em;text-align: center;line-height:1em;}
-h4 {font-size: 1.5em;letter-spacing: 0.4px;line-height: 1em;}
+h4 {font-size: 1.5em;letter-spacing: 0.4px;line-height: 1em;margin: 15px;}
 h5 {font-size: 1.2em}
-.nav-bar{background-color: darkblue}
+.nav-bar{background-color: darkblue;padding-top: 14px;padding-bottom: 14px;}
 .nav-bar a{
     color:white;
     text-decoration: none;
@@ -27,6 +27,7 @@ h5 {font-size: 1.2em}
     background-repeat: no-repeat;
     background-size: cover;
     height: 650px;
+    padding-top: 50px;
 }
 .quote {
     font-size:2.5em;
@@ -52,11 +53,26 @@ h5 {font-size: 1.2em}
     text-decoration: none;
 }
 .service-box{
+    border: 2px solid #eee;
+    border-radius: 20px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 10px 0 black;
+    margin: 50px 5% 0 5%;
+    padding:20px;
     font-size: 1.7em;
     text-align: center;
+    width:40%;
 }
 .service-box img{
     width:125px;
+}
+#team {
+    padding: 75px 0;
+    margin:0 auto;
+}
+#team p{
+    width:60%;
+    margin: 10px auto;
 }
 #team .section-text{
     font-size: 1.9em;
@@ -74,13 +90,43 @@ h5 {font-size: 1.2em}
 .footer{
     font-size: 1.9em;
     text-align: center;
+    padding: 40px 100px 40px 100px;
+    margin-bottom: 25px;
 }
 .address{
     font-style: normal;
     font-size: 0.8em;
+    margin-bottom: 30px;
 }
 .footer a{
     color:lightblue;
     text-decoration: none;
 }
+.nav-bar-ul{
+    width:1200px;
+    margin: 0 auto;
+}
+li{
+    list-style-type: none;
+    text-align: center;
+}
+.container{
+    width: 1200px;
+    margin:0 auto;
+    padding: 75px 0;
+}
+#team hr{
+    margin: 20px auto 30px auto;
+    width:40%;
+}
+.schedule-table{
+    margin: 0 auto 40px auto;
+    font-size:1.5em
+}
+.schedule-table th, td {
+    border-bottom: 1px solid black;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+}
+
 

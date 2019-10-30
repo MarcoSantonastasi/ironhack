@@ -24,7 +24,7 @@ var myGameArea = {
         var points = Math.floor(this.frames / 5);
         this.context.font = "18px serif";
         this.context.fillStyle = "black";
-        this.context.fillText("Score: " + points, 350, 50);
+        this.context.fillText("Score: " + points + " Obstacles: " + myObstacles.length, 250, 50);
     }
 };
 // 02

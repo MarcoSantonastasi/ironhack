@@ -11,18 +11,20 @@ class CanvasGame {
     stopGame() { clearInterval(this.interval); }
 }
 
-class AvoidWallsGames extends CanvasGame {
-    constructor(width, heigth) {
-        super(width, heigth);
+class AvoidWallsGame extends CanvasGame {
+    constructor(width, height) {
+        super(width, height);
         this.updateGameState = this.updateGameState.bind(this);
         this.checkGameOver = this.checkGameOver.bind(this);
         this.interval = setInterval(this.updateGameState, 20);
         this.frames = 0;
         //game objects
+        this.gameObjects = [];
         this.player = new MovingRectangle(this.context, 30, 30, "red", 0, 110);
-        this.obstacles = [];
+        this.gameObjects.push(this.player);
         //game events
-        document.onkeydown = (e)=> {
+        document.onkeydown = (e) => {
+            console.log(e.keyCode);
             switch (e.keyCode) {
                 case 38: // up arrow
                     this.player.speedY -= 1;
@@ -43,20 +45,14 @@ class AvoidWallsGames extends CanvasGame {
             this.player.speedY = 0;
         };
     }
-    updateGameState(){
+    updateGameState() {
         this.clearCanvas();
-        this.player.newPos();
-        this.player.update();
         this.updateObstacles();
+        this.gameObjects.forEach((gameObject) => gameObject.update())
         this.checkGameOver();
         this.score();
-
     }
     updateObstacles() {
-        for (let i = 0; i < this.obstacles.length; i++) {
-            this.obstacles[i].x += -1;
-            this.obstacles[i].update();
-        }
         this.frames += 1;
         if (this.frames % 120 === 0) {
             var x = this.canvas.width;
@@ -68,29 +64,27 @@ class AvoidWallsGames extends CanvasGame {
             var minGap = 50;
             var maxGap = 200;
             var gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-            this.obstacles.push(new MovingRectangle(this.context,10, height, "green", x, 0));
-            this.obstacles.push(new MovingRectangle(this.context,10, x - height - gap, "green", x, height + gap));
+            this.gameObjects.push(new Obstacle(this.context, height, 0));
+            this.gameObjects.push(new Obstacle(this.context, x - height - gap, height + gap));
         }
     }
-    score(){
+    score() {
         var points = Math.floor(this.frames / 5);
         this.context.font = "18px serif";
         this.context.fillStyle = "black";
-        this.context.fillText("Score: " + points + " Obstacles: " + this.obstacles.length, 250, 50);
+        this.context.fillText("Score: " + points + " Obstacles: " + this.gameObjects.length, 250, 50);
     }
-    checkGameOver() {    
-        var crashed = this.obstacles.some((obstacle) => {
+    checkGameOver() {
+        var crashed = this.gameObjects.some((obstacle) => {
             return this.player.isCollidedWith(obstacle);
         });
         if (crashed) this.stop();
     }
-    stop() {
-        clearInterval(this.interval);
-    }
+    stop() { clearInterval(this.interval); }
 }
-
 class MovingRectangle {
     constructor(context, width, height, color, x, y) {
+        console.log("new MR:", width, height, color, x, y);
         this.context = context;
         this.width = width;
         this.height = height;
@@ -101,6 +95,7 @@ class MovingRectangle {
         this.speedY = 0;
     }
     update() {
+        console.log("update Rect");
         this.newPos();
         var ctx = this.context;
         ctx.fillStyle = this.color;
@@ -115,6 +110,8 @@ class MovingRectangle {
     top() { return this.y; }
     bottom() { return this.y + this.height; }
     isCollidedWith(obstacle) {
+        //since the player is also a gameObject we have to make sure that it doesn't "collide" with itself
+        if (this === obstacle) return false;
         return !(
             this.bottom() < obstacle.top() ||
             this.top() > obstacle.bottom() ||
@@ -123,5 +120,12 @@ class MovingRectangle {
         );
     }
 }
+class Obstacle extends MovingRectangle {
+    constructor(context, height, y) {
+        super(context, 10, height, "green", context.canvas.width, y);
+        this.speedX = -1;
+        this.speedY = 0;
+    }
+}
 
-let game = new AvoidWallsGames(480,270);
+let game = new AvoidWallsGame(480, 270);

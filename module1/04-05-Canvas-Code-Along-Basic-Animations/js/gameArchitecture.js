@@ -46,36 +46,32 @@ class AvoidWallsGame extends CanvasGame {
         };
     }
     updateGameState() {
+        this.frames += 1;
         this.clearCanvas();
-        this.updateObstacles();
+        if (this.frames % 120 === 0) this.createObstacle();
         this.gameObjects.forEach((gameObject) => gameObject.update())
         this.checkGameOver();
         this.score();
     }
-    updateObstacles() {
-        this.frames += 1;
-        if (this.frames % 120 === 0) {
-            var x = this.canvas.width;
-            var minHeight = 20;
-            var maxHeight = 200;
-            var height = Math.floor(
-                Math.random() * (maxHeight - minHeight + 1) + minHeight
-            );
-            var minGap = 50;
-            var maxGap = 200;
-            var gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-            this.gameObjects.push(new Obstacle(this.context, height, 0));
-            this.gameObjects.push(new Obstacle(this.context, x - height - gap, height + gap));
-        }
+    createObstacle() {
+        let x = this.canvas.width;
+        let minHeight = 20;
+        let maxHeight = 200;
+        let height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight );
+        let minGap = 50;
+        let maxGap = 200;
+        let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+        this.gameObjects.push(new Obstacle(this.context, height, 0));
+        this.gameObjects.push(new Obstacle(this.context, this.canvas.height - height - gap, height + gap));
     }
     score() {
-        var points = Math.floor(this.frames / 5);
+        let points = Math.floor(this.frames / 5);
         this.context.font = "18px serif";
         this.context.fillStyle = "black";
         this.context.fillText("Score: " + points + " Obstacles: " + this.gameObjects.length, 250, 50);
     }
     checkGameOver() {
-        var crashed = this.gameObjects.some((obstacle) => {
+        let crashed = this.gameObjects.some((obstacle) => {
             return this.player.isCollidedWith(obstacle);
         });
         if (crashed) this.stop();
@@ -97,7 +93,7 @@ class MovingRectangle {
     update() {
         console.log("update Rect");
         this.newPos();
-        var ctx = this.context;
+        let ctx = this.context;
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }

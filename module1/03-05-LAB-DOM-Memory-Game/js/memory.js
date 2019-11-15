@@ -7,6 +7,7 @@ class MemoryGame {
     this.guessedCards = [];
     this.pairsGuessed = 0;
     this.pairsGuessedCounter;
+    this.shuffleCards();
   }
   shuffleCards() {
     let currentIndex = this.cards.length;
@@ -43,11 +44,11 @@ class MemoryGame {
   }
 
   disableCard(card) {
-    card.setAttribute("disabled, true");
+    card.setAttribute("disabled", true);
     card.childNodes.forEach(child => {
       child.setAttribute("disabled", true);
     });
-    console.log("Card duisabled: ", card);
+    console.log("Card disabled: ", card);
   }
 
   updatePairsClickedCounter() {
@@ -74,9 +75,11 @@ class MemoryGame {
 
   checkIfPair() {
     if (this.pickedCards.length < 2) return;
-    const card1 = this.pickedCards[0].getAttribute("data-card-name");
-    const card2 = this.pickedCards[1].getAttribute("data-card-name");
-    if (card1 === card2) {
+    const card1 = this.pickedCards[0];
+    const card1Name = card1.getAttribute("data-card-name");
+    const card2 = this.pickedCards[1];
+    const card2Name = card2.getAttribute("data-card-name");
+    if (card1 !== card2 && card1Name === card2Name) {
       this.disableCard(card1);
       this.disableCard(card2);
       this.guessedCards.push(card1);

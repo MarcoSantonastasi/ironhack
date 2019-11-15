@@ -9,9 +9,9 @@ class MemoryGame {
     this.pairsGuessedCounter;
   }
   shuffleCards() {
-    var currentIndex = this.cards.length,
-      temporaryValue,
-      randomIndex;
+    let currentIndex = this.cards.length;
+    let temporaryValue;
+    let randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -41,6 +41,15 @@ class MemoryGame {
       else this.resetPickedCards();
     }
   }
+
+  disableCard(card) {
+    card.setAttribute("disabled, true");
+    card.childNodes.forEach(child => {
+      child.setAttribute("disabled", true);
+    });
+    console.log("Card duisabled: ", card);
+  }
+
   updatePairsClickedCounter() {
     this.pairsClickedCounter.innerText = this.pairsClicked;
   }
@@ -68,6 +77,8 @@ class MemoryGame {
     const card1 = this.pickedCards[0].getAttribute("data-card-name");
     const card2 = this.pickedCards[1].getAttribute("data-card-name");
     if (card1 === card2) {
+      this.disableCard(card1);
+      this.disableCard(card2);
       this.guessedCards.push(card1);
       this.pairsGuessed += 1;
       this.updatePairsGuessedCounter();

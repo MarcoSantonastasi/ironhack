@@ -3,7 +3,10 @@ class MemoryGame {
     this.cards = cards;
     this.pickedCards = [];
     this.pairsClicked = 0;
+    this.pairsClickedCounter;
+    this.guessedCards = [];
     this.pairsGuessed = 0;
+    this.pairsGuessedCounter;
   }
   shuffleCards() {
     var currentIndex = this.cards.length,
@@ -25,16 +28,25 @@ class MemoryGame {
 
   cardClicked(card) {
     console.log("Card clicked: ", card);
-
+    if (this.guessedCards.includes(card)) return;
     if (this.pickedCards.length < 2) {
       this.pickedCards.push(card);
       this.flipCard(card);
     }
 
     if (this.pickedCards.length == 2) {
+      this.pairsClicked += 1;
+      this.updatePairsClickedCounter();
       if (this.checkIfPair()) this.isFinished();
       else this.resetPickedCards();
     }
+  }
+  updatePairsClickedCounter() {
+    this.pairsClickedCounter.innerText = this.pairsClicked;
+  }
+
+  updatePairsGuessedCounter() {
+    this.pairsGuessedCounter.innerText = this.pairsGuessed;
   }
 
   resetPickedCards() {
@@ -47,17 +59,18 @@ class MemoryGame {
   flipCard(card) {
     card.childNodes.forEach(child => {
       child.classList.toggle("back");
-      console.log("Card flipped: ", child);
     });
+    console.log("Card flipped: ", card);
   }
 
   checkIfPair() {
     if (this.pickedCards.length < 2) return;
-    this.pairsClicked += 1;
-    const card1 = this.pickedCards[0].getAttribute("name");
-    const card2 = this.pickedCards[1].getAttribute("name");
+    const card1 = this.pickedCards[0].getAttribute("data-card-name");
+    const card2 = this.pickedCards[1].getAttribute("data-card-name");
     if (card1 === card2) {
+      this.guessedCards.push(card1);
       this.pairsGuessed += 1;
+      this.updatePairsGuessedCounter();
       this.pickedCards = [];
       return true;
     } else {

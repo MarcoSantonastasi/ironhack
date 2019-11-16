@@ -44,9 +44,9 @@ class MemoryGame {
   }
 
   disableCard(card) {
-    card.setAttribute("disabled", true);
+    card.disabled = true;
     card.childNodes.forEach(child => {
-      child.setAttribute("disabled", true);
+      child.disabled = true;
     });
     console.log("Card disabled: ", card);
   }
@@ -83,6 +83,7 @@ class MemoryGame {
       this.disableCard(card1);
       this.disableCard(card2);
       this.guessedCards.push(card1);
+      this.guessedCards.push(card2);
       this.pairsGuessed += 1;
       this.updatePairsGuessedCounter();
       this.pickedCards = [];

@@ -44,9 +44,9 @@ class MemoryGame {
   }
 
   disableCard(card) {
-    card.onClick = void 0;
+    card.onclick = null;
     card.childNodes.forEach(child => {
-      child.onClick = void 0;
+      child.onclick = null;
     });
     console.log("Card disabled: ", card);
   }
